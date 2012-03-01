@@ -1,21 +1,18 @@
 define(function(require) {
     var _ = require('underscore'),
-        util = require('util');
+        util = require('util'),
+        Entity = require('core/entity'),
+        Bullet = require('bullet');
 
     function Player(engine) {
-        _.extend(this, {
-            engine: engine,
-
-            x: 0,
-            y: 0,
+        Entity.call(this, engine);
+        return _.extend(this, {
             vy: 0,
-            standing: false,
-
-            bounding_box: {left: 0, top: 0, right: 16, bottom: 16}
+            standing: false
         });
     }
 
-    _.extend(Player.prototype, {
+    _.extend(Player.prototype, Entity.prototype, {
         tick: function() {
             var kb = this.engine.kb,
                 dx = 0, dy = 0;
@@ -40,13 +37,19 @@ define(function(require) {
                 }
             }
 
+            if(kb.keys[kb.SPACE]) {
+                this.engine.add_entity(new Bullet(this.engine, this.x, this.y));
+            }
+
             if (!xcol.solid) this.x += dx;
             this.y += this.vy;
         },
+
         render: function(ctx) {
             ctx.fillStyle = '#000000';
             ctx.fillRect(this.x, this.y, 16, 16);
         },
+
         collision_box: function(dx, dy) {
             return {
                 left: this.x + dx + this.bounding_box.left,

@@ -43,8 +43,8 @@ define(function(require) {
         this.collision_box = {left: 0, top: 0, right: this.WIDTH,
                               bottom: this.HEIGHT};
 
-        this.player = new Player(this);
-
+        this.entities = [];
+        this.add_entity(new Player(this));
         document.getElementById('game').appendChild(this.canvas);
     }
 
@@ -61,7 +61,9 @@ define(function(require) {
 
         // Process one frame of behavior.
         tick: function() {
-            this.player.tick();
+            for(var i=0, len=this.entities.length; i<len; i++) {
+                this.entities[i].tick();
+            }
         },
 
         // Render the screen.
@@ -71,7 +73,14 @@ define(function(require) {
             this.ctx.fillStyle = '#FFFF8B';
             this.ctx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
 
-            this.player.render(this.ctx);
+            for(var i=0, len=this.entities.length; i<len; i++) {
+                this.entities[i].render(this.ctx);
+            }
+        },
+
+        // Add an entity
+        add_entity: function(ent) {
+            this.entities.push(ent);
         },
 
         // Check if the given box collides with other objects

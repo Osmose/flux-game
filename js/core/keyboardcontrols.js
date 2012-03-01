@@ -9,7 +9,8 @@ define(['underscore'], function(_) {
             'RIGHT' : 39,
             'DOWN' : 40,
             'A': 68,
-            'B': 70
+            'B': 70,
+            'SPACE': 32
         });
 
         this.letter = function(l) {
