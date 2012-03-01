@@ -8,10 +8,10 @@ require.config({
 require(['jquery', 'core/engine', 'core/loader'],
 function($, Engine, loader) {
     $(function() {
-        var engine = window.engine = new Engine();
         loader.loadResources('resources.json');
 
         loader.onload(function() {
+            var engine = window.engine = new Engine();
             engine.startGame();
         });
     });

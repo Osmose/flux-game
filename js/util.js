@@ -37,11 +37,11 @@ define(function(require) {
         },
 
         // Render a map (double array) to a canvas using the given tileset
-        renderMap: function(ctx, map, tileset, width, height) {
+        renderMap: function(ctx, map, tileset, x, y, width, height) {
             for (var ty = 0; ty < height; ty++) {
                 for (var tx = 0; tx < width; tx++) {
-                    tileset.drawTile(ctx, map[ty][tx], tx * tileset.tw,
-                                     ty * tileset.th);
+                    tileset.drawTile(ctx, map[ty][tx], x + (tx * tileset.tw),
+                                     y + (ty * tileset.th));
                 }
             }
         },

@@ -1,6 +1,8 @@
 {
     "images": {
+        "tileset": "images/tile.png"
     },
     "json": {
+        "maps": "maps.json"
     }
 }

@@ -5,7 +5,9 @@ define(function(require) {
 
         KeyboardControls = require('core/keyboardcontrols'),
 
-        Player = require('player');
+        Player = require('player'),
+        Tileset = require('core/tileset'),
+        Tilemap = require('core/tilemap');
 
     var requestFrame = (function() {
         return window.mozRequestAnimationFrame ||
@@ -19,13 +21,17 @@ define(function(require) {
     // Handles the game loop, timing, and dispatching processing and rendering
     // to the active tilemap, entities, and player.
     function Engine(game_data) {
+        var self = this;
         _.extend(this, {
             WIDTH: 160,
             HEIGHT: 144,
             SCALE: 3,
 
             kb: new KeyboardControls(),
-            running: false
+            running: false,
+            tilemaps: {},
+            tileset: new Tileset(loader.get('tileset'), 16, 16, 0, 0, {}),
+            tilemap_id: 'first'
         });
 
         // Bind the engine to the loop function used as a callback
@@ -45,6 +51,13 @@ define(function(require) {
 
         this.entities = [];
         this.add_entity(new Player(this));
+
+        // Load tilemaps
+        var maps = loader.get('maps');
+        _.each(maps, function(map, id) {
+            self.tilemaps[id] = new Tilemap(self, self.tileset, map);
+        });
+
         document.getElementById('game').appendChild(this.canvas);
     }
 
@@ -72,6 +85,8 @@ define(function(require) {
 
             this.ctx.fillStyle = '#FFFF8B';
             this.ctx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
+
+            this.tilemaps[this.tilemap_id].render(this.ctx);
 
             for(var i=0, len=this.entities.length; i<len; i++) {
                 this.entities[i].render(this.ctx);
