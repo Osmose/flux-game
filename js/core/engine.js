@@ -101,13 +101,14 @@ define(function(require) {
         // Check if the given box collides with other objects
         // in the game.
         collides: function(box) {
-            var contains = util.box_contains(box, this.collision_box),
-                stand = 9999,
+            var stand = 9999,
                 solid = false;
+
+            /*var contains = util.box_contains(box, this.collision_box);
             if (contains !== null) {
                 stand = Math.min(stand, this.collision_box[util.dirToBoxSide(contains)]);
                 solid = true;
-            }
+            }*/
 
             var tilemap = this.tilemaps[this.tilemap_id],
                 tcol = tilemap.collides(box);
