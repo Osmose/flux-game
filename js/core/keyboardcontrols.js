@@ -2,6 +2,7 @@ define(['underscore'], function(_) {
     function KeyboardControls() {
         var self = this;
         this.keys = {};
+        this._pressed = {};
 
         _.extend(self, {
             'LEFT' : 37,
@@ -17,8 +18,22 @@ define(['underscore'], function(_) {
             return self.keys[l.toUpperCase().charCodeAt(0)];
         };
 
+        this.pressed = function(code) {
+            return !!self._pressed[code];
+        };
+
+        this.tick = function() {
+            self._pressed = {};
+        };
+
         function setKey(code, status) {
-            if (code) self.keys[code] = status;
+            if (code) {
+                if(!self.keys[code]) {
+                    self._pressed[code] = status;
+                }
+
+                self.keys[code] = status;
+            }
         }
 
         window.addEventListener('keydown', function(e) {

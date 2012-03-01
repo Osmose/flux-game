@@ -77,6 +77,7 @@ define(function(require) {
             for(var i=0, len=this.entities.length; i<len; i++) {
                 this.entities[i].tick();
             }
+            this.kb.tick();
         },
 
         // Render the screen.

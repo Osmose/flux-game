@@ -67,7 +67,7 @@ define(function(require) {
                 }
             }
 
-            if(kb.keys[kb.SPACE]) {
+            if(kb.pressed(kb.SPACE)) {
                 this.engine.add_entity(new Bullet(this.engine, this.x, this.y));
             }
 
