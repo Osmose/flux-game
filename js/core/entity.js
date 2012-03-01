@@ -6,7 +6,7 @@ define(function(require) {
             engine: engine,
             x: 0,
             y: 0,
-            bounding_box: {left: 0, top: 0, right: 16, bottom: 16}
+            bounding_box: {left: 0, top: 0, right: 15, bottom: 15}
         });
     }
 

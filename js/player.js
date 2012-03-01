@@ -24,16 +24,15 @@ define(function(require) {
             if (this.vy > 4) this.vy = 4;
 
             var xcol = this.engine.collides(this.collision_box(dx, 0)),
-                ycol = this.engine.collides(this.collision_box(0, this.vy));
-            this.standing = (ycol.boundary !== false &&
-                             ycol.boundary.side === util.DOWN);
+                ycol = this.engine.collides(this.collision_box(0, Math.ceil(this.vy)));
+            this.standing = (this.vy > 0 && ycol.solid);
 
             if (this.standing) {
                 if (kb.keys[kb.A]) {
                     this.vy = -3;
                 } else {
                     this.vy = 0;
-                    this.y = ycol.boundary.pos - this.bounding_box.bottom;
+                    this.y = ycol.stand - (this.bounding_box.bottom + 1);
                 }
             }
 

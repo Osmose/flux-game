@@ -102,19 +102,23 @@ define(function(require) {
         // in the game.
         collides: function(box) {
             var contains = util.box_contains(box, this.collision_box),
-                boundary = false,
+                stand = 9999,
                 solid = false;
             if (contains !== null) {
-                boundary = {
-                    side: contains,
-                    pos: this.collision_box[util.dirToBoxSide(contains)]
-                };
+                stand = Math.min(stand, this.collision_box[util.dirToBoxSide(contains)]);
+                solid = true;
+            }
+
+            var tilemap = this.tilemaps[this.tilemap_id],
+                tcol = tilemap.collides(box);
+            if (tcol.solid) {
+                stand = Math.min(stand, tcol.stand);
                 solid = true;
             }
 
             return {
                 solid: solid,
-                boundary: boundary
+                stand: stand
             };
         },
 
