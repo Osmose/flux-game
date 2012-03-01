@@ -13,3 +13,7 @@ canvas {
     display: block;
     margin: auto;
 }
+
+#audio {
+	display: none;
+}
