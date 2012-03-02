@@ -257,6 +257,7 @@ define(function(require) {
             };
         },
 
+        // Play a sound.
         play: function(src){
             this.sounds.play(src);
         },
