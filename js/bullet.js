@@ -21,13 +21,8 @@ define(function(require) {
 
             if(this._bb) {
                 var c = this.engine.collides(this._bb);
-                if(c.solid) {
+                if(c.solid && this.grenade) {
                     this.engine.curTilemap().map[c.y][c.x] = 0;
-                    if (this.grenade) {
-                        this.engine.curTilemap().map[c.y][c.x+1] = 0;
-                        this.engine.curTilemap().map[c.y+1][c.x] = 0;
-                        this.engine.curTilemap().map[c.y-1][c.x] = 0;
-                    }
                     return false;
                 };
             }
