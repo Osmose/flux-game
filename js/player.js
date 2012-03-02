@@ -65,7 +65,7 @@ define(function(require) {
 
             this.health -= amount;
 
-            // Don't take damage for the next 2 seconds.
+            // Don't take damage for the next second.
             var player = this;
             setTimeout(function() {
                 player.taking_damage = false;
