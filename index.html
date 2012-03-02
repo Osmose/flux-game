@@ -5,10 +5,21 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
   <body id="game">
-    <!-- Audio Loop -->
-    <audio id="audio" preload loop autoplay>
+    <!-- Background Ambient Loop -->
+    <audio id="audio" preload="auto" autobuffer loop autoplay>
       <source src="assets/audio/loop.ogg">
     </audio>
+
+    <!-- Jump sound effect -->
+    <audio id="jump" preload="auto" autobuffer>
+      <source src="assets/audio/jump.ogg">
+    </audio>
+
+    <!-- Shooting sound effect -->
+    <audio id="shoot" preload="auto" autobuffer>
+      <source src="assets/audio/shoot.ogg">
+    </audio>
+
     <script data-main="js/game.js" src="js/require.js"></script>
   </body>
 </html>
