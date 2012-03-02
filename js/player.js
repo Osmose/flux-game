@@ -66,6 +66,8 @@ define(function(require) {
                     this.vy = 0;
                     this.y = ycol.stand - (this.bounding_box.bottom + 1);
                 }
+            } else if (ycol.solid) {
+                this.vy = 0;
             }
 
             if(kb.pressed(kb.SPACE)) {
