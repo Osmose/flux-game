@@ -3,8 +3,8 @@ define(function(require) {
         Enemy = require('enemy'),
         util = require('util');
 
-    function MommaChild(engine, x, y) {
-        Enemy.call(this, engine, x, y);
+    function MommaChild(engine, x, y, dir, speed) {
+        Enemy.call(this, engine, x, y, dir, speed);
         return _.extend(this, {
             bounding_box: {left:0, top:0, right:5, bottom:5}
         });

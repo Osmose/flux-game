@@ -1,6 +1,6 @@
 define(function(require) {
     var _ = require('underscore'),
-        Entity = require('core/entity')
+        Entity = require('core/entity'),
         util = require('util');
 
     function Enemy(engine, x, y, dir, speed) {

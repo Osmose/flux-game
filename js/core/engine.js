@@ -76,8 +76,14 @@ define(function(require) {
         // Add enemies.
         enemies = loader.get('enemies');
         for (var i in enemies) {
-            this.add_entity(new Enemy(this, enemies[i].x, enemies[i].y,
-                                            enemies[i].dir, enemies[i].speed));
+            var type = Enemy;
+
+            if (enemies[i].type == 'momma') {
+                type = Momma;
+            }
+
+            this.add_entity(new type(this, enemies[i].x, enemies[i].y,
+                                     enemies[i].dir, enemies[i].speed));
         }
 
         this.sounds = new Sounds();
