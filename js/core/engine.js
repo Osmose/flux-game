@@ -9,7 +9,7 @@ define(function(require) {
         Enemy = require('enemy'),
         Sounds = require('core/sounds'),
         Tileset = require('core/tileset'),
-        Tilemap = require('core/tilemap');
+        Tilemap = require('core/tilemap'),
         Neartree = require('core/neartree');
 
     var requestFrame = (function() {
@@ -209,7 +209,7 @@ define(function(require) {
         remove_entity: function(ent) {
             this.removes.push(ent);
         },
-        
+
         // Check if the given box collides with other objects
         // in the game.
         collides: function(box) {
