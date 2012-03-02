@@ -31,7 +31,12 @@ define(function(require) {
             running: false,
             tilemaps: {},
             tileset: new Tileset(loader.get('tileset'), 16, 16, 0, 0, {}),
-            tilemap_id: 'first'
+            tilemap_id: 'first',
+
+            camera: {
+                x: 0,
+                y: 0
+            }
         });
 
         // Bind the engine to the loop function used as a callback
@@ -50,7 +55,8 @@ define(function(require) {
                               bottom: this.HEIGHT};
 
         this.entities = [];
-        this.add_entity(new Player(this));
+        this.player = new Player(this);
+        this.add_entity(this.player);
 
         // Load tilemaps
         var maps = loader.get('maps');
@@ -87,11 +93,32 @@ define(function(require) {
             this.ctx.fillStyle = '#FFFF8B';
             this.ctx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
 
-            this.tilemaps[this.tilemap_id].render(this.ctx);
-
+            this.centerCamera();
+            this.tilemaps[this.tilemap_id].render(this.ctx, this.camera.x,
+                                                  this.camera.y);
             for(var i=0, len=this.entities.length; i<len; i++) {
-                this.entities[i].render(this.ctx);
+                this.entities[i].render(this.ctx, this.camera.x, this.camera.y);
             }
+        },
+
+        // Center camera on player
+        centerCamera: function() {
+            var maxLeft = 0,
+                maxRight = (this.curTilemap().width * 16) - this.WIDTH,
+                maxTop = 0,
+                maxBottom = (this.curTilemap().height * 16) - this.HEIGHT;
+
+            this.camera.x = this.player.x - ((this.WIDTH / 2) - 8);
+            this.camera.y = this.player.y - ((this.HEIGHT / 2) - 8);
+
+            this.camera.x = Math.max(this.camera.x, maxLeft);
+            this.camera.x = Math.min(this.camera.x, maxRight);
+            this.camera.y = Math.max(this.camera.y, maxTop);
+            this.camera.y = Math.min(this.camera.y, maxBottom);
+        },
+
+        curTilemap: function() {
+            return this.tilemaps[this.tilemap_id];
         },
 
         // Add an entity

@@ -79,9 +79,9 @@ define(function(require) {
             this.y += this.vy;
         },
 
-        render: function(ctx) {
+        render: function(ctx, x, y) {
             this.anim();
-            this.tileset.drawTile(ctx, this.tile, this.x, this.y);
+            this.tileset.drawTile(ctx, this.tile, this.x - x, this.y - y);
         },
 
         collision_box: function(dx, dy) {
