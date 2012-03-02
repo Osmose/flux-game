@@ -7,6 +7,7 @@ define(function(require) {
             tileset: tileset,
             map: map.map,
             solid: map.solid,
+            backgrounds: [],
             x: 0,
             y: 0
         });
@@ -17,9 +18,23 @@ define(function(require) {
 
     _.extend(Tilemap.prototype, {
         render: function(ctx, x, y) {
+            this.renderBackground(ctx, this.x - x, this.y - y);
             util.renderMap(ctx, this.map, this.tileset, this.x - x, this.y - y,
                            this.width, this.height);
         },
+
+        // Render parallaxy backgroung image(s).
+        renderBackground: function(ctx, x, y) {
+            // bg 0 stays put, all others move.
+            // FIXME: This probably looks ridiculous with more than 2 layers.
+            for (var i = 0; i < this.backgrounds.length; i++) {
+                var img = this.backgrounds[i];
+                for (var tx = i * x; tx < engine.canvas.height; tx += img.width) {
+                    ctx.drawImage(img, tx, 0, img.width, img.height);
+                }
+            }
+        },
+
         // Check which tiles a box collides with.
         collides: function(box) {
             var bounds = this.getContainingTiles(box),

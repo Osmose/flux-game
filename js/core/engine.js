@@ -85,6 +85,9 @@ define(function(require) {
         var maps = loader.get('maps');
         _.each(maps, function(map, id) {
             self.tilemaps[id] = new Tilemap(self, self.tileset, map);
+            _.each(map.backgrounds, function(bg, bid) {
+                self.tilemaps[id].backgrounds[bid] = loader.get(bg);
+            });
         });
 
         document.getElementById('game').appendChild(this.canvas);
@@ -173,9 +176,6 @@ define(function(require) {
         // Render the screen.
         render: function() {
             var self = this;
-
-            this.ctx.fillStyle = '#FFFF8B';
-            this.ctx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
 
             this.centerCamera();
             this.tilemaps[this.tilemap_id].render(this.ctx, this.camera.x,

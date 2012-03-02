@@ -1,7 +1,9 @@
 {
     "images": {
         "tileset": "images/game_tiles.png",
-        "player": "images/hipster.png"
+        "player": "images/hipster.png",
+        "bg0": "images/background_level0.png",
+        "bg1": "images/background_level1.png"
     },
     "json": {
     	"enemies": "enemies.json",
