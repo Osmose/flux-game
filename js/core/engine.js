@@ -180,7 +180,7 @@ define(function(require) {
             this.centerCamera();
             this.tilemaps[this.tilemap_id].render(this.ctx, this.camera.x,
                                                   this.camera.y);
-            for(var i=0, len=this.entities.length; i<len; i++) {
+            for (var i=0, len=this.entities.length; i<len; i++) {
                 this.entities[i].render(this.ctx, this.camera.x, this.camera.y);
             }
         },

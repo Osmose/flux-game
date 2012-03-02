@@ -23,7 +23,7 @@ define(function(require) {
         },
 
         // Initializes a canvas with the given width, height, and scale.
-        // If not canvas is given, creates and returns a new canvas.
+        // If no canvas is given, creates and returns a new canvas.
         canvas: function(width, height, scale, canvas) {
             if (canvas === undefined) canvas = document.createElement('canvas');
             var ctx = canvas.getContext('2d');
