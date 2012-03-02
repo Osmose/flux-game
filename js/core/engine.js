@@ -7,6 +7,7 @@ define(function(require) {
 
         Player = require('player'),
         Enemy = require('enemy'),
+        Momma = require('momma'),
         Sounds = require('core/sounds'),
         Tileset = require('core/tileset'),
         Tilemap = require('core/tilemap'),

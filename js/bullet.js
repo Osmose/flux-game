@@ -12,7 +12,8 @@ define(function(require) {
             dir: dir,
             grenade: alt,
             laser: laser,
-            bounding_box: {left:0, top:0, right:5, bottom:5}
+            bounding_box: {left:0, top:0, right:5, bottom:5},
+            name: 'bullet'
         });
     }
 
