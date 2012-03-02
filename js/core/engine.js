@@ -6,9 +6,11 @@ define(function(require) {
         KeyboardControls = require('core/keyboardcontrols'),
 
         Player = require('player'),
+        Enemy = require('enemy'),
         Sounds = require('core/sounds'),
         Tileset = require('core/tileset'),
         Tilemap = require('core/tilemap');
+        Neartree = require('core/neartree');
 
     var requestFrame = (function() {
         return window.mozRequestAnimationFrame ||
@@ -18,6 +20,15 @@ define(function(require) {
                 setTimeout(callback, 30);
             };
     })();
+
+    function get_bounding_points(e) {
+        return (
+            [[e.x+e.bounding_box.left, e.y+e.bounding_box.top],
+             [e.x+e.bounding_box.right, e.y+e.bounding_box.top],
+             [e.x+e.bounding_box.left, e.y+e.bounding_box.bottom],
+             [e.x+e.bounding_box.right, e.y+e.bounding_box.bottom]]
+        );
+    }
 
     // Handles the game loop, timing, and dispatching processing and rendering
     // to the active tilemap, entities, and player.
@@ -33,6 +44,7 @@ define(function(require) {
             tilemaps: {},
             tileset: new Tileset(loader.get('tileset'), 16, 16, 0, 0, {}),
             tilemap_id: 'first',
+            neartree: new Neartree(),
 
             camera: {
                 x: 0,
@@ -56,8 +68,13 @@ define(function(require) {
                               bottom: this.HEIGHT};
 
         this.entities = [];
+        this.removes = [];
         this.player = new Player(this);
         this.add_entity(this.player);
+        this.add_entity(new Enemy(this, 50, 260));
+        this.add_entity(new Enemy(this, 100, 260));
+        this.add_entity(new Enemy(this, 150, 260));
+        this.add_entity(new Enemy(this, 200, 260));
 
         this.sounds = new Sounds();
 
@@ -83,30 +100,71 @@ define(function(require) {
 
         // Process one frame of behavior.
         tick: function() {
-            var removes = [];
+            var neartree = this.neartree;
+            neartree.clear();
+            this.removes = []
+
             for(var i=0, len=this.entities.length; i<len; i++) {
                 var e = this.entities[i];
                 if(e.tick() === false) {
-                    removes.push(e);
+                    this.removes.push(e);
                 }
+                else {
+                    e._bb = {left: e.x + e.bounding_box.left,
+                             right: e.x + e.bounding_box.right,
+                             top: e.y + e.bounding_box.top,
+                             bottom: e.y + e.bounding_box.bottom};
+                    var points = get_bounding_points(e);
+                    for(var x=0; x<points.length; x++) {
+                        var point = points[x];
+                        neartree.add(Math.round(point[0]/128),
+                                     Math.round(point[1]/128),
+                                     e);
+                    }
+                }
+            }
+
+            for(var i=0, len=this.entities.length; i<len; i++) {
+                this.check_collisions(this.entities[i]);
             }
 
             var queue = [];
             for(var i=0, len=this.entities.length; i<len; i++) {
                 var remove = false;
-                for(var j=0; j<removes.length; j++) {
-                    if(this.entities[i] == removes[j]) {
+                var e = this.entities[i];
+
+                for(var j=0; j<this.removes.length; j++) {
+                    if(e == this.removes[j]) {
                         remove = true;
                     }
                 }
 
                 if(!remove) {
-                    queue.push(this.entities[i]);
+                    queue.push(e);
                 }
             }
 
             this.entities = queue;
             this.kb.tick();
+        },
+
+        check_collisions: function(e) {
+            var points = get_bounding_points(e);
+            for(var i=0; i<points.length; i++) {
+                var point = points[i];
+                var objs = this.neartree.get(Math.round(point[0]/128),
+                                             Math.round(point[1]/128));
+                if(objs) {
+                    for(var x=0; x<objs.length; x++) {
+                        if(objs[x] != e &&
+                           e._bb &&
+                           util.box_collision(e._bb, objs[x]._bb)) {
+                            e.collide(objs[x]);
+                            return;
+                        }
+                    }
+                }
+            }
         },
 
         // Render the screen.
@@ -144,11 +202,14 @@ define(function(require) {
             return this.tilemaps[this.tilemap_id];
         },
 
-        // Add an entity
         add_entity: function(ent) {
             this.entities.push(ent);
         },
 
+        remove_entity: function(ent) {
+            this.removes.push(ent);
+        },
+        
         // Check if the given box collides with other objects
         // in the game.
         collides: function(box) {

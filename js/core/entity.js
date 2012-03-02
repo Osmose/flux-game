@@ -19,6 +19,10 @@ define(function(require) {
             throw 'not implemented';
         },
 
+        collide: function(ctx, x, y) {
+            throw 'not implemented';
+        },
+
         collision_box: function(dx, dy) {
             return {
                 left: this.x + dx + this.bounding_box.left,

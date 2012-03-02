@@ -81,7 +81,7 @@ define(function(require) {
                 this.engine.add_entity(new Bullet(this.engine,
                                                   this.x + (this.dir == util.LEFT ? 0 : 16),
                                                   this.y + 8,
-                                                  1.0,
+                                                  2.0,
                                                   this.dir, alt));
                 if (alt) {
                     engine.play("/assets/audio/grenade.ogg");
@@ -99,6 +99,12 @@ define(function(require) {
         render: function(ctx, x, y) {
             this.anim();
             this.tileset.drawTile(ctx, this.tile, this.x - x, this.y - y);
+        },
+
+        collide: function(obj) {
+            if(obj.name == 'enemy') {
+                this.engine.remove_entity(this);
+            }
         },
 
         collision_box: function(dx, dy) {

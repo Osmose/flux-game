@@ -19,17 +19,19 @@ define(function(require) {
         tick: function() {
             this.x += this.speed * (this.dir == util.LEFT ? -1 : 1);
 
-            var c = this.engine.collides({left: this.x + this.bounding_box.left,
-                                          right: this.x + this.bounding_box.right,
-                                          top: this.y + this.bounding_box.top,
-                                          bottom: this.y + this.bounding_box.bottom});
-            if(c.solid) {
-                this.engine.tilemaps['first'].map[c.y][c.x] = 0;
-                if (this.grenade) {
-                    this.engine.tilemaps['first'].map[c.y][c.x+1] = 0;
-                }
-                return false;
-            };
+            if(this._bb) {
+                var c = this.engine.collides(this._bb);
+                if(c.solid) {
+                    this.engine.tilemaps['first'].map[c.y][c.x] = 0;
+                    if (this.grenade) {
+                        this.engine.tilemaps['first'].map[c.y][c.x+1] = 0;
+                        this.engine.tilemaps['first'].map[c.y+1][c.x] = 0;
+                        this.engine.tilemaps['first'].map[c.y-1][c.x] = 0;
+                    }
+                    return false;
+                };
+            }
+            return true;
         },
 
         render: function(ctx, x, y) {
@@ -43,6 +45,11 @@ define(function(require) {
                 ctx.fillRect(this.x - x, this.y - y, 10, 10);
 
             }
+        },
+
+        collide: function(obj) {
+            this.engine.remove_entity(obj);
+            this.engine.remove_entity(this);
         }
     });
 
