@@ -83,9 +83,29 @@ define(function(require) {
 
         // Process one frame of behavior.
         tick: function() {
+            var removes = [];
             for(var i=0, len=this.entities.length; i<len; i++) {
-                this.entities[i].tick();
+                var e = this.entities[i];
+                if(e.tick() === false) {
+                    removes.push(e);
+                }
             }
+
+            var queue = [];
+            for(var i=0, len=this.entities.length; i<len; i++) {
+                var remove = false;
+                for(var j=0; j<removes.length; j++) {
+                    if(this.entities[i] == removes[j]) {
+                        remove = true;
+                    }
+                }
+
+                if(!remove) {
+                    queue.push(this.entities[i]);
+                }
+            }
+
+            this.entities = queue;
             this.kb.tick();
         },
 
@@ -150,7 +170,9 @@ define(function(require) {
 
             return {
                 solid: solid,
-                stand: stand
+                stand: stand,
+                x: tcol.x,
+                y: tcol.y
             };
         },
 

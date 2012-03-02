@@ -33,6 +33,8 @@ define(function(require) {
                     case 1:
                         collides.solid = true;
                         collides.stand = Math.min(collides.stand, ty * 16);
+                        collides.x = tx;
+                        collides.y = ty;
                         break;
                     }
                 }
