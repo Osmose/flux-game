@@ -72,6 +72,7 @@ define(function(require) {
                 player.taking_damage = false;
                 player._taking_damage_frame = 8;
             }, 1000);
+            this.engine.play('assets/audio/killed.ogg');
         },
         tick: function() {
             var kb = this.engine.kb,
