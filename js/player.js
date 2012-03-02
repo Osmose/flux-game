@@ -18,7 +18,10 @@ define(function(require) {
             bounding_box: {left: 4, top: 0, right: 11, bottom: 15},
             shooting: false,
             has_laser: false,
-            num_jumps: 2
+            num_jumps: 2,
+            health: 3,
+            taking_damage: false,
+            _taking_damage_frame: 8
         });
     }
 
@@ -50,6 +53,25 @@ define(function(require) {
                 this.tile += 4;
             }
         },
+        take_damage: function(amount) {
+            if (this.taking_damage === true) {
+                return;
+            }
+
+            this.taking_damage = true;
+            if (amount === undefined) {
+                amount = 1;
+            }
+
+            this.health -= amount;
+
+            // Don't take damage for the next 2 seconds.
+            var player = this;
+            setTimeout(function() {
+                player.taking_damage = false;
+                player._taking_damage_frame = 16;
+            }, 1000);
+        },
         tick: function() {
             var kb = this.engine.kb,
                 dx = 0, dy = 0;
@@ -77,7 +99,7 @@ define(function(require) {
                 this.vy = -3;
             } 
 
-            if(kb.pressed(kb.SPACE) || kb.pressed(kb.B)) {
+            if (kb.pressed(kb.SPACE) || kb.pressed(kb.B)) {
                 this.shooting = true;
                 var grenade = kb.pressed(kb.SPACE);
                 this.engine.add_entity(new Bullet(this.engine,
@@ -96,16 +118,31 @@ define(function(require) {
 
             if (!xcol.solid) this.x += dx;
             this.y += this.vy;
+
+            // Bang bang you're dead.
+            if (this.health < 1) {
+                this.engine.remove_entity(this);
+            }
         },
 
         render: function(ctx, x, y) {
+            if (this.taking_damage === true) {
+                this._taking_damage_frame--;
+                if (this._taking_damage_frame < 0) {
+                    if (this._taking_damage_frame < -8) {
+                        this._taking_damage_frame = 8;
+                    }
+                    return;
+                }
+            }
+
             this.anim();
             this.tileset.drawTile(ctx, this.tile, this.x - x, this.y - y);
         },
 
         collide: function(obj) {
-            if(obj.name == 'enemy') {
-                this.engine.remove_entity(this);
+            if (obj.name === 'enemy') {
+                this.take_damage();
             }
         },
 
