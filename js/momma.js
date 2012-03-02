@@ -1,21 +1,26 @@
 define(function(require) {
     var _ = require('underscore'),
-        Enemy = require('enemy'),
+        Entity = require('core/entity'),
         MommaChild = require('momma-child'),
         util = require('util');
 
     function Momma(engine, x, y, dir, speed) {
-        Enemy.call(this, engine, x, y, dir, speed);
+        Entity.call(this, engine, x, y, dir);
+        _.extend(this, {
+            x: x,
+            y: y,
+            speed: speed
+        });
     }
 
-    _.extend(Momma.prototype, Enemy.prototype, {
+    _.extend(Momma.prototype, Entity.prototype, {
         tick: function() {
-            Enemy.prototype.tick.call(this);
+            this.x -= this.speed;
         },
 
         render: function(ctx, x, y) {
             ctx.fillStyle = 'blue';
-            ctx.fillRect(this.x - x, this.y - y, 16, 16);   
+            ctx.fillRect(this.x - x, this.y - y, 16, 16);
         },
 
         collide: function(obj) {
