@@ -1,6 +1,6 @@
 {
     "images": {
-        "tileset": "images/tile.png",
+        "tileset": "images/game_tiles.png",
         "player": "images/hipster.png"
     },
     "json": {
