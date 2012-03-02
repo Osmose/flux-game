@@ -16,9 +16,9 @@ define(function(require) {
             this.x += this.speed * (this.dir == util.LEFT ? -1 : 1);
         },
         
-        render: function(ctx) {
+        render: function(ctx, x, y) {
             ctx.fillStyle = 'green';
-            ctx.fillRect(this.x, this.y, 2, 2);
+            ctx.fillRect(this.x - x, this.y - y, 2, 2);
         }
     });
 
