@@ -14,5 +14,18 @@ function($, Engine, loader) {
             var engine = window.engine = new Engine();
             engine.startGame();
         });
+        var snd_toggle = $('#snd_toggle');
+        snd_toggle.click(function () {
+            var on = (snd_toggle.html() == "On");
+            var soundgarden = document.getElementById('audio');
+            if (on) {
+                snd_toggle.html("Shhh....");
+                soundgarden.play()
+            } else {
+                snd_toggle.html("On");
+                soundgarden.pause()
+            }
+        });
     });
 });
+
