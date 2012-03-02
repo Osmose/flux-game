@@ -65,7 +65,7 @@ define(function(require) {
 
             if (this.standing) {
                 if (kb.keys[kb.A]) {
-                    engine.play("/assets/audio/jump.ogg");
+                    engine.play("assets/audio/jump.ogg");
                     this.vy = -3;
                 } else {
                     this.vy = 0;
@@ -84,9 +84,9 @@ define(function(require) {
                                                   2.0,
                                                   this.dir, alt));
                 if (alt) {
-                    engine.play("/assets/audio/grenade.ogg");
+                    engine.play("assets/audio/grenade.ogg");
                 } else {
-                    engine.play("/assets/audio/shoot.ogg");
+                    engine.play("assets/audio/wonderful.ogg");
                 }
             } else {
                 this.shooting = false;
