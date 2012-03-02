@@ -29,13 +29,12 @@ define(function(require) {
                 };
             for (var ty = bounds.top; ty <= bounds.bottom; ty++) {
                 for (var tx = bounds.left; tx <= bounds.right; tx++) {
-                    switch (this.map[ty][tx]) {
-                    case 1:
+                    var t = this.map[ty][tx];
+                    if (_.include(this.solid, t)) {
                         collides.solid = true;
                         collides.stand = Math.min(collides.stand, ty * 16);
                         collides.x = tx;
                         collides.y = ty;
-                        break;
                     }
                 }
             }

@@ -21,12 +21,24 @@ function($, _, util, loader, Tilemap, Tileset) {
         $code = $('#code');
 
         // Bind painting
-        $map.click(function(e) {
+        function paint(e) {
             var p = util.mouseTilePos(this, e, 48, 48);
             curTilemap().map[p.ty][p.tx] = curTile;
             refreshMap();
 
             $code.val(JSON.stringify(curTilemap().map));
+        };
+
+        var drawing = false;
+        $map.mousedown(function(e) {
+            drawing = true;
+            paint.call(this, e);
+        }).mousemove(function(e) {
+            if (drawing) {
+                paint.call(this, e);
+            }
+        }).mouseup(function(e) {
+            drawing = false;
         });
 
         $palette.click(function(e) {
