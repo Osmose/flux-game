@@ -21,7 +21,7 @@ define(function(require) {
             num_jumps: 2,
             health: 3,
             taking_damage: false,
-            _taking_damage_frame: 8
+            _taking_damage_frame: 8,
             name: 'player'
         });
     }
