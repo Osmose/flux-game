@@ -62,7 +62,7 @@ define(function(require) {
 
             if (this.standing) {
                 if (kb.keys[kb.A]) {
-                    document.getElementById('jump').play();
+                    engine.play("/assets/audio/jump.ogg");
                     this.vy = -3;
                 } else {
                     this.vy = 0;
@@ -78,7 +78,7 @@ define(function(require) {
                                                   this.y + 8,
                                                   1.0,
                                                   this.dir));
-                document.getElementById('shoot').play();
+                engine.play("/assets/audio/shoot.ogg");
             }
 
             if (!xcol.solid) this.x += dx;

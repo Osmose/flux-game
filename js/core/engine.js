@@ -6,6 +6,7 @@ define(function(require) {
         KeyboardControls = require('core/keyboardcontrols'),
 
         Player = require('player'),
+        Sounds = require('core/sounds'),
         Tileset = require('core/tileset'),
         Tilemap = require('core/tilemap');
 
@@ -57,6 +58,8 @@ define(function(require) {
         this.entities = [];
         this.player = new Player(this);
         this.add_entity(this.player);
+
+        this.sounds = new Sounds();
 
         // Load tilemaps
         var maps = loader.get('maps');
@@ -149,6 +152,10 @@ define(function(require) {
                 solid: solid,
                 stand: stand
             };
+        },
+
+        play: function(src){
+            this.sounds.play(src);
         },
 
         // Start the game loop.
