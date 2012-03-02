@@ -15,7 +15,7 @@ define(function(require) {
             throw 'not implemented';
         },
 
-        render: function(ctx) {
+        render: function(ctx, x, y) {
             throw 'not implemented';
         },
 
