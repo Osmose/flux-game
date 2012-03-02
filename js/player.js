@@ -68,7 +68,11 @@ define(function(require) {
             }
 
             if(kb.pressed(kb.SPACE)) {
-                this.engine.add_entity(new Bullet(this.engine, this.x, this.y));
+                this.engine.add_entity(new Bullet(this.engine, 
+                                                  this.x + (this.dir == util.LEFT ? 0 : 16),
+                                                  this.y + 8,
+                                                  Math.random(),
+                                                  this.dir));
             }
 
             if (!xcol.solid) this.x += dx;

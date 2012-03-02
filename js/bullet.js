@@ -1,21 +1,24 @@
 define(function(require) {
     var _ = require('underscore'),
-        Entity = require('core/entity');
+        Entity = require('core/entity'),
+        util = require('util');
 
-    function Bullet(engine, x, y) {
+    function Bullet(engine, x, y, speed, dir) {
         Entity.call(this, engine);
         this.x = x;
         this.y = y;
+        this.speed = speed;
+        this.dir = dir;
     }
 
     _.extend(Bullet.prototype, Entity.prototype, {
         tick: function() {
-            this.x += 0.5;
+            this.x += this.speed * (this.dir == util.LEFT ? -1 : 1);
         },
         
         render: function(ctx) {
-            ctx.fillStyle = '#AABBDD';
-            ctx.fillRect(this.x, this.y, 16, 16);
+            ctx.fillStyle = 'green';
+            ctx.fillRect(this.x, this.y, 2, 2);
         }
     });
 
