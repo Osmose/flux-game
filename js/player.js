@@ -14,6 +14,8 @@ define(function(require) {
             tileset: new Tileset(loader.get('player'), 16, 16, 0, 0, {}),
             frame: 0,
             tile: 0,
+            x: 20,
+            y: 16*14,
             dir: util.RIGHT,
             bounding_box: {left: 4, top: 0, right: 11, bottom: 15}
         });
