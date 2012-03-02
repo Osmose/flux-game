@@ -68,10 +68,10 @@ define(function(require) {
             }
 
             if(kb.pressed(kb.SPACE)) {
-                this.engine.add_entity(new Bullet(this.engine, 
+                this.engine.add_entity(new Bullet(this.engine,
                                                   this.x + (this.dir == util.LEFT ? 0 : 16),
                                                   this.y + 8,
-                                                  Math.random(),
+                                                  1.0,
                                                   this.dir));
             }
 
