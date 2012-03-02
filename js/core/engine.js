@@ -265,6 +265,11 @@ define(function(require) {
         startGame: function() {
             this.running = true;
             this.loop();
+        },
+
+        // Stop the game.
+        stopGame: function() {
+            this.running = false;
         }
     });
 

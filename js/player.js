@@ -66,13 +66,32 @@ define(function(require) {
 
             this.health -= amount;
 
+            // Bang bang you're dead.
+            if (this.health < 1) {
+                this.engine.remove_entity(this);
+                document.getElementById('audio').pause();
+                engine.stopGame();
+
+                setTimeout(function() {
+                    engine.play("assets/audio/trombone.ogg");
+                    engine.ctx.font = "bold 18pt Arial";
+                    engine.ctx.fillStyle = "red";
+                    engine.ctx.textBaseLine = "middle";
+                    engine.ctx.textAlign = "center";
+                    engine.ctx.fillText("GAME OVER", engine.WIDTH / 2, engine.HEIGHT / 2);
+                }, 300);
+                return;
+            }
+
             // Don't take damage for the next second.
             var player = this;
             setTimeout(function() {
                 player.taking_damage = false;
                 player._taking_damage_frame = 8;
             }, 1000);
+
             this.engine.play('assets/audio/killed.ogg');
+
         },
         tick: function() {
             var kb = this.engine.kb,
@@ -120,11 +139,6 @@ define(function(require) {
 
             if (!xcol.solid) this.x += dx;
             this.y += this.vy;
-
-            // Bang bang you're dead.
-            if (this.health < 1) {
-                this.engine.remove_entity(this);
-            }
         },
 
         render: function(ctx, x, y) {
