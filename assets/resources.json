@@ -4,6 +4,7 @@
         "player": "images/hipster.png"
     },
     "json": {
+    	"enemies": "enemies.json",
         "maps": "maps.json"
     }
 }

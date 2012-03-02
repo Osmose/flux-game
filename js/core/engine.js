@@ -71,9 +71,13 @@ define(function(require) {
         this.removes = [];
         this.player = new Player(this);
         this.add_entity(this.player);
-        this.add_entity(new Enemy(this, 50, 256));
-        this.add_entity(new Enemy(this, 150, 256));
-        this.add_entity(new Enemy(this, 200, 256));
+
+        // Add enemies.
+        enemies = loader.get('enemies');
+        for (var i in enemies) {
+            this.add_entity(new Enemy(this, enemies[i].x, enemies[i].y,
+                                            enemies[i].dir, enemies[i].speed));
+        }
 
         this.sounds = new Sounds();
 

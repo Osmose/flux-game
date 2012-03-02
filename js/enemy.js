@@ -3,10 +3,11 @@ define(function(require) {
         Entity = require('core/entity')
         util = require('util');
 
-    function Enemy(engine, x, y) {
+    function Enemy(engine, x, y, dir, speed) {
         Entity.call(this, engine);
         return _.extend(this, {
-            dir: util.LEFT,
+            dir: dir,
+            speed: speed,
             x: x,
             y: y,
             name: 'enemy'
@@ -32,7 +33,12 @@ define(function(require) {
                 this.collide({});
             }
 
-            this.x = (this.dir === util.LEFT) ? this.x - .2 : this.x + .2;
+            if (this.dir === util.LEFT || this.dir === util.RIGHT) {
+                this.x = (this.dir === util.LEFT) ? this.x - this.speed : this.x + this.speed;
+            }
+            if (this.dir === util.DOWN || this.dir === util.UP) {
+                this.y = (this.dir === util.DOWN) ? this.y - this.speed : this.y + this.speed;
+            }
         },
 
         render: function(ctx, x, y) {
@@ -42,7 +48,11 @@ define(function(require) {
 
         collide: function(object) {
             if (object.name !== 'player') {
-                this.dir = (this.dir === util.LEFT) ? util.RIGHT : util.LEFT;
+                if (this.dir === util.LEFT || this.dir === util.RIGHT) {
+                    this.dir = (this.dir === util.LEFT) ? util.RIGHT : util.LEFT;
+                } else {
+                    this.dir = (this.dir === util.DOWN) ? util.UP : util.DOWN;
+                }
             }
         }
     });
