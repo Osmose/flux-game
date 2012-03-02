@@ -86,7 +86,7 @@ define(function(require) {
                 if (alt) {
                     engine.play("assets/audio/grenade.ogg");
                 } else {
-                    engine.play("assets/audio/wonderful.ogg");
+                    engine.play("assets/audio/shoot.ogg");
                 }
             } else {
                 this.shooting = false;
