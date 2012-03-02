@@ -167,7 +167,9 @@ define(function(require) {
 
             return {
                 solid: solid,
-                stand: stand
+                stand: stand,
+                x: tcol.x,
+                y: tcol.y
             };
         },
 

@@ -23,8 +23,9 @@ define(function(require) {
                                           top: this.y + this.bounding_box.top,
                                           bottom: this.y + this.bounding_box.bottom});
             if(c.solid) {
+                this.engine.tilemaps['first'].map[c.y][c.x] = 0;
                 return false;
-            }
+            };
         },
         
         render: function(ctx, x, y) {
