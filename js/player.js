@@ -90,7 +90,7 @@ define(function(require) {
                 player._taking_damage_frame = 8;
             }, 1000);
 
-            this.engine.play('assets/audio/killed.ogg');
+            this.engine.play('assets/audio/scream.ogg');
 
         },
         tick: function() {

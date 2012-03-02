@@ -6,4 +6,5 @@
 * http://www.freesound.org/people/RutgerMuller/sounds/51239/ (background audio 2)
 * http://www.freesound.org/people/simon.rue/sounds/61847/ (jumping)
 * http://www.freesound.org/people/HardPCM/sounds/32954/ (shooting)
+* http://en.wikipedia.org/wiki/File:WilhelmScream.ogg (injury)
 * http://www.freesound.org/people/Benboncan/sounds/73581/ (game over)
