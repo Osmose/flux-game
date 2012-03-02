@@ -76,13 +76,18 @@ define(function(require) {
                 this.vy = 0;
             }
 
+            if (kb.pressed(kb.A)) {
+                engine.play("assets/audio/jump.ogg");
+                this.vy = -3;
+            }
+
             if(kb.pressed(kb.SPACE) || kb.pressed(kb.B)) {
                 this.shooting = true;
                 var grenade = kb.pressed(kb.SPACE);
                 this.engine.add_entity(new Bullet(this.engine,
                                                   this.x + (this.dir == util.LEFT ? 0 : 16),
                                                   this.y + 8,
-                                                  2.0,
+                                                  4.0,
                                                   this.dir, grenade, this.has_laser));
                 if (grenade) {
                     engine.play("assets/audio/grenade.ogg");
