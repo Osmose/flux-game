@@ -60,6 +60,7 @@ define(function(require) {
 
             if (this.standing) {
                 if (kb.keys[kb.A]) {
+                    document.getElementById('jump').play();
                     this.vy = -3;
                 } else {
                     this.vy = 0;
@@ -68,6 +69,7 @@ define(function(require) {
             }
 
             if(kb.pressed(kb.SPACE)) {
+                document.getElementById('shoot').play();
                 this.engine.add_entity(new Bullet(this.engine, this.x, this.y));
             }
 
