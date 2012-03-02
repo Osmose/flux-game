@@ -2,6 +2,7 @@
     "images": {
         "tileset": "images/game_tiles.png",
         "player": "images/hipster.png",
+        "enemy": "images/enemy_1.png",
         "bg0": "images/background_level0.png",
         "bg1": "images/background_level1.png"
     },

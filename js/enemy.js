@@ -1,7 +1,9 @@
 define(function(require) {
     var _ = require('underscore'),
-        Entity = require('core/entity'),
         util = require('util');
+        loader = require('core/loader'),
+        Entity = require('core/entity'),
+        Tileset = require('core/tileset');
 
     function Enemy(engine, x, y, dir, speed) {
         Entity.call(this, engine);
@@ -10,11 +12,40 @@ define(function(require) {
             speed: speed,
             x: x,
             y: y,
-            name: 'enemy'
+            name: 'enemy',
+            tileset: new Tileset(loader.get('enemy'), 16, 16, 0, 0, {}),
+            frame: 0,
+            tile: 0,
+            dir: dir,
+            bounding_box: {left: 4, top: 0, right: 11, bottom: 15},
+            vy: 0,
+            standing: false,
+            frame: 0,
+            tile: 0,
+            shooting: false,
+            has_laser: false
         });
     }
 
     _.extend(Enemy.prototype, Entity.prototype, {
+        anim: function() {
+            this.tile = 2;
+
+            this.frame++;
+            if (this.frame > 7) this.frame = 0;
+            if (this.frame >= 0) {
+                if (this.frame < 4) {
+                    this.tile = 0;
+                } else {
+                    this.tile = 1;
+                }
+            }
+
+            if (this.dir === util.RIGHT) {
+                this.tile += 4;
+            }
+        },
+
         tick: function() {
             var dx = 0,
                 dy = 0;
@@ -42,8 +73,8 @@ define(function(require) {
         },
 
         render: function(ctx, x, y) {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(this.x - x, this.y - y, 16, 16);
+            this.anim();
+            this.tileset.drawTile(ctx, this.tile, this.x - x, this.y - y);
         },
 
         collide: function(object) {
