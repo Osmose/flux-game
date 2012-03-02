@@ -12,7 +12,6 @@ define(function(require) {
 
     _.extend(Entity.prototype, {
         tick: function() {
-            throw 'not implemented';
         },
 
         render: function(ctx, x, y) {

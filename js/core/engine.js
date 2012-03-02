@@ -8,6 +8,7 @@ define(function(require) {
         Player = require('player'),
         Enemy = require('enemy'),
         Momma = require('momma'),
+        Door = require('door'),
         Sounds = require('core/sounds'),
         Tileset = require('core/tileset'),
         Tilemap = require('core/tilemap'),
@@ -90,11 +91,15 @@ define(function(require) {
 
         // Load tilemaps
         var maps = loader.get('maps');
+        var engine = this;
         _.each(maps, function(map, id) {
             self.tilemaps[id] = new Tilemap(self, self.tileset, map);
             _.each(map.backgrounds, function(bg, bid) {
                 self.tilemaps[id].backgrounds[bid] = loader.get(bg);
             });
+            if (map.door) {
+                engine.add_entity(new Door(engine, map.door.x, map.door.y));
+            }
         });
 
         document.getElementById('game').appendChild(this.canvas);
@@ -109,6 +114,10 @@ define(function(require) {
             if (this.running) {
                 requestFrame(this.bound_loop, this.canvas);
             }
+        },
+
+        levelup: function() {
+            console.log("this run .enterLevel(this.level+1)");
         },
 
         // Process one frame of behavior.

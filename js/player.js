@@ -22,6 +22,7 @@ define(function(require) {
             health: 3,
             taking_damage: false,
             _taking_damage_frame: 8
+            name: 'player'
         });
     }
 
@@ -97,7 +98,7 @@ define(function(require) {
                 engine.play("assets/audio/jump.ogg");
                 this.num_jumps++;
                 this.vy = -3;
-            } 
+            }
 
             if (kb.pressed(kb.SPACE) || kb.pressed(kb.B)) {
                 this.shooting = true;
