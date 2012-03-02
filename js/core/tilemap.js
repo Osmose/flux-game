@@ -29,8 +29,9 @@ define(function(require) {
             // FIXME: This probably looks ridiculous with more than 2 layers.
             for (var i = 0; i < this.backgrounds.length; i++) {
                 var img = this.backgrounds[i];
+                var ty = i / engine.SCALE * .5 * (engine.canvas.height + y * engine.SCALE);
                 for (var tx = i * x; tx < engine.canvas.height; tx += img.width) {
-                    ctx.drawImage(img, tx, 0, img.width, img.height);
+                    ctx.drawImage(img, tx, ty, img.width, img.height);
                 }
             }
         },
