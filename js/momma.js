@@ -1,6 +1,7 @@
 define(function(require) {
     var _ = require('underscore'),
         Enemy = require('enemy'),
+        MommaChild = require('momma-child'),
         util = require('util');
 
     function Momma(engine, x, y) {
@@ -19,8 +20,13 @@ define(function(require) {
 
         collide: function(obj) {
             if(obj.name == 'bullet') {
-                this.engine.add_entity(new Momma(this.engine,
-                                                 100, 256));
+                var start_x = this.x - 10;
+                this.engine.add_entity(new MommaChild(this.engine,
+                                                      start_x + Math.random()*10, 256));
+                this.engine.add_entity(new MommaChild(this.engine,
+                                                      start_x + 10 + Math.random()*10, 256));
+                this.engine.add_entity(new MommaChild(this.engine,
+                                                      start_x + 20 + Math.random()*10, 256));
             }
         }
     });
