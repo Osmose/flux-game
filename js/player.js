@@ -17,24 +17,29 @@ define(function(require) {
             x: 20,
             y: 16*14,
             dir: util.RIGHT,
-            bounding_box: {left: 4, top: 0, right: 11, bottom: 15}
+            bounding_box: {left: 4, top: 0, right: 11, bottom: 15},
+            shooting: false
         });
     }
 
     _.extend(Player.prototype, Entity.prototype, {
         anim: function() {
             if (this.standing) {
-                // Standing still
-                if (!this.moving) {
+                if (this.shooting) {
+                    this.tile = 3;
+                    this.frame = -8;
+                } else if (!this.moving) {
                     this.tile = 0;
                     this.frame = 0;
                 } else {
                     this.frame++;
                     if (this.frame > 7) this.frame = 0;
-                    if (this.frame < 4) {
-                        this.tile = 0;
-                    } else {
-                        this.tile = 1;
+                    if (this.frame >= 0) {
+                        if (this.frame < 4) {
+                            this.tile = 0;
+                        } else {
+                            this.tile = 1;
+                        }
                     }
                 }
             } else {
@@ -42,7 +47,7 @@ define(function(require) {
             }
 
             if (this.dir === util.LEFT) {
-                this.tile += 3;
+                this.tile += 4;
             }
         },
         tick: function() {
@@ -73,12 +78,15 @@ define(function(require) {
             }
 
             if(kb.pressed(kb.SPACE)) {
+                this.shooting = true;
                 this.engine.add_entity(new Bullet(this.engine,
                                                   this.x + (this.dir == util.LEFT ? 0 : 16),
                                                   this.y + 8,
                                                   1.0,
                                                   this.dir));
                 document.getElementById('shoot').play();
+            } else {
+                this.shooting = false;
             }
 
             if (!xcol.solid) this.x += dx;
