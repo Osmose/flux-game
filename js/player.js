@@ -77,13 +77,13 @@ define(function(require) {
 
             if(kb.pressed(kb.SPACE) || kb.pressed(kb.B)) {
                 this.shooting = true;
-                var alt = kb.pressed(kb.B);
+                var grenade = kb.pressed(kb.SPACE);
                 this.engine.add_entity(new Bullet(this.engine,
                                                   this.x + (this.dir == util.LEFT ? 0 : 16),
                                                   this.y + 8,
                                                   2.0,
-                                                  this.dir, alt));
-                if (alt) {
+                                                  this.dir, grenade));
+                if (grenade) {
                     engine.play("assets/audio/grenade.ogg");
                 } else {
                     engine.play("assets/audio/shoot.ogg");
