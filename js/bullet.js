@@ -14,7 +14,6 @@ define(function(require) {
     _.extend(Bullet.prototype, Entity.prototype, {
         tick: function() {
             this.x += this.speed * (this.dir == util.LEFT ? -1 : 1);
-            this.y += Math.random() * 10 - 5;
         },
         
         render: function(ctx) {
