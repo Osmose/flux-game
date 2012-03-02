@@ -69,7 +69,7 @@ define(function(require) {
             var player = this;
             setTimeout(function() {
                 player.taking_damage = false;
-                player._taking_damage_frame = 16;
+                player._taking_damage_frame = 8;
             }, 1000);
         },
         tick: function() {
