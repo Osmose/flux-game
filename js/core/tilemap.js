@@ -16,8 +16,8 @@ define(function(require) {
     }
 
     _.extend(Tilemap.prototype, {
-        render: function(ctx) {
-            util.renderMap(ctx, this.map, this.tileset, this.x, this.y,
+        render: function(ctx, x, y) {
+            util.renderMap(ctx, this.map, this.tileset, this.x - x, this.y - y,
                            this.width, this.height);
         },
         // Check which tiles a box collides with.
