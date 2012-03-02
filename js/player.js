@@ -16,7 +16,8 @@ define(function(require) {
             tile: 0,
             dir: util.RIGHT,
             bounding_box: {left: 4, top: 0, right: 11, bottom: 15},
-            shooting: false
+            shooting: false,
+            has_laser: false
         });
     }
 
@@ -82,7 +83,7 @@ define(function(require) {
                                                   this.x + (this.dir == util.LEFT ? 0 : 16),
                                                   this.y + 8,
                                                   2.0,
-                                                  this.dir, grenade));
+                                                  this.dir, grenade, this.has_laser));
                 if (grenade) {
                     engine.play("assets/audio/grenade.ogg");
                 } else {

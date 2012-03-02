@@ -3,7 +3,7 @@ define(function(require) {
         Entity = require('core/entity'),
         util = require('util');
 
-    function Bullet(engine, x, y, speed, dir, alt) {
+    function Bullet(engine, x, y, speed, dir, alt, laser) {
         Entity.call(this, engine);
         return _.extend(this, {
             x: x,
@@ -11,6 +11,7 @@ define(function(require) {
             speed: speed,
             dir: dir,
             grenade: alt,
+            laser: laser,
             bounding_box: {left:0, top:0, right:5, bottom:5}
         });
     }
@@ -21,7 +22,7 @@ define(function(require) {
 
             if(this._bb) {
                 var c = this.engine.collides(this._bb);
-                if(c.solid) {
+                if (c.solid) {
                     if (this.grenade) {
                         this.engine.curTilemap().map[c.y][c.x] = 0;
                     }
@@ -48,7 +49,9 @@ define(function(require) {
 
         collide: function(obj) {
             this.engine.remove_entity(obj);
-            if (this.grenade) {
+
+            // Lasers pass through enemies.
+            if (this.laser === false) {
                 this.engine.remove_entity(this);
             }
         }
