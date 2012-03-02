@@ -17,7 +17,8 @@ define(function(require) {
             dir: util.RIGHT,
             bounding_box: {left: 4, top: 0, right: 11, bottom: 15},
             shooting: false,
-            has_laser: false
+            has_laser: false,
+            num_jumps: 0
         });
     }
 
@@ -64,22 +65,17 @@ define(function(require) {
                 ycol = this.engine.collides(this.collision_box(0, Math.ceil(this.vy)));
             this.standing = (this.vy > 0 && ycol.solid);
 
-            if (this.standing) {
-                if (kb.keys[kb.A]) {
-                    engine.play("assets/audio/jump.ogg");
-                    this.vy = -3;
-                } else {
-                    this.vy = 0;
-                    this.y = ycol.stand - (this.bounding_box.bottom + 1);
-                }
-            } else if (ycol.solid) {
+            if (ycol.solid) {
                 this.vy = 0;
+                this.y = ycol.stand - (this.bounding_box.bottom + 1);
+                this.num_jumps = 0;
             }
 
-            if (kb.pressed(kb.A)) {
+            if (kb.pressed(kb.A) && this.num_jumps < 2) {
                 engine.play("assets/audio/jump.ogg");
+                this.num_jumps++;
                 this.vy = -3;
-            }
+            } 
 
             if(kb.pressed(kb.SPACE) || kb.pressed(kb.B)) {
                 this.shooting = true;
