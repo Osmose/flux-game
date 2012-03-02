@@ -3,9 +3,10 @@ define(function(require) {
         Entity = require('core/entity'),
         util = require('util');
 
-    function Door(engine, x, y) {
+    function Door(engine, x, y, level) {
         Entity.call(this, engine);
         return _.extend(this, {
+            level: level,
             x: x,
             y: y,
             bounding_box: {left:0, top:0, right:5, bottom:5}
@@ -20,7 +21,7 @@ define(function(require) {
 
         collide: function(obj) {
             if (obj.name == 'player') {
-                this.engine.levelup()
+                this.engine.change_level(this.level);
             }
         }
     });

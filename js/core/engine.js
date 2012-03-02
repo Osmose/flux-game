@@ -45,7 +45,7 @@ define(function(require) {
             running: false,
             tilemaps: {},
             tileset: new Tileset(loader.get('tileset'), 16, 16, 0, 0, {}),
-            tilemap_id: 'first',
+            tilemap_id: "first",
             neartree: new Neartree(),
 
             camera: {
@@ -75,7 +75,8 @@ define(function(require) {
         this.add_entity(this.player);
 
         // Add enemies.
-        enemies = loader.get('enemies');
+        var enemies = loader.get('enemies');
+        enemies = enemies[this.tilemap_id];
         for (var i in enemies) {
             var type = Enemy;
 
@@ -98,7 +99,7 @@ define(function(require) {
                 self.tilemaps[id].backgrounds[bid] = loader.get(bg);
             });
             if (map.door) {
-                engine.add_entity(new Door(engine, map.door.x, map.door.y));
+                engine.add_entity(new Door(engine, map.door.x, map.door.y, map.door.level));
             }
         });
 
@@ -106,6 +107,10 @@ define(function(require) {
     }
 
     _.extend(Engine.prototype, {
+        change_level: function(level) {
+            this.tilemap_id = level;
+        },
+
         // Process and render a single frame, and schedule another loop
         // for the next frame.
         loop: function() {
@@ -114,10 +119,6 @@ define(function(require) {
             if (this.running) {
                 requestFrame(this.bound_loop, this.canvas);
             }
-        },
-
-        levelup: function() {
-            console.log("this run .enterLevel(this.level+1)");
         },
 
         // Process one frame of behavior.
