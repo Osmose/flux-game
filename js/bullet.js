@@ -21,8 +21,12 @@ define(function(require) {
 
             if(this._bb) {
                 var c = this.engine.collides(this._bb);
-                if(c.solid && this.grenade) {
-                    this.engine.curTilemap().map[c.y][c.x] = 0;
+                if(c.solid) {
+                    if (this.grenade) {
+                        this.engine.curTilemap().map[c.y][c.x] = 0;
+                    }
+
+                    // Stop the bullet from travelling after it hits something.
                     return false;
                 };
             }
@@ -44,7 +48,9 @@ define(function(require) {
 
         collide: function(obj) {
             this.engine.remove_entity(obj);
-            this.engine.remove_entity(this);
+            if (this.grenade) {
+                this.engine.remove_entity(this);
+            }
         }
     });
 
