@@ -10,7 +10,8 @@
         "jump": "assets/audio/jump.ogg",
         "grenade": "assets/audio/grenade.ogg",
         "shoot": "assets/audio/shoot.ogg",
-        "scream": "assets/audio/scream.ogg"
+        "scream": "assets/audio/scream.ogg",
+        "clunk": "assets/audio/clunk.ogg"
     },
     "json": {
     	"enemies": "enemies.json",
