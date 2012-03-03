@@ -12,7 +12,9 @@ define(function(require) {
         Sounds = require('core/sounds'),
         Tileset = require('core/tileset'),
         Tilemap = require('core/tilemap'),
-        Neartree = require('core/neartree');
+        Neartree = require('core/neartree'),
+
+        DoubleJump = require('entities/items/double_jump');
 
     var requestFrame = (function() {
         return window.mozRequestAnimationFrame ||
@@ -45,7 +47,7 @@ define(function(require) {
             running: false,
             tilemaps: {},
             tileset: new Tileset(loader.get('tileset'), 16, 16, 0, 0, {}),
-            tilemap_id: "first",
+            tilemap_id: null,
             neartree: new Neartree(),
 
             camera: {
@@ -103,12 +105,27 @@ define(function(require) {
             }
         });
 
+        this.change_level('first');
+
         document.getElementById('game').appendChild(this.canvas);
     }
 
     _.extend(Engine.prototype, {
         change_level: function(level) {
+            var self = this,
+                tilemap = null;
+            if (this.tilemap_id !== null) {
+                tilemap = this.tilemaps[this.tilemap_id];
+                _.each(tilemap.entities, function(entity) {
+                    self.remove_entity(entity);
+                });
+            }
+
             this.tilemap_id = level;
+            tilemap = this.tilemaps[level];
+            _.each(tilemap.entities, function(entity) {
+                self.add_entity(entity);
+            });
         },
 
         // Process and render a single frame, and schedule another loop

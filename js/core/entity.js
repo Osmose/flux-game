@@ -3,6 +3,7 @@ define(function(require) {
 
     function Entity(engine) {
         _.extend(this, {
+            uid: _.uniqueId(),
             engine: engine,
             x: 0,
             y: 0,

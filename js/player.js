@@ -22,7 +22,10 @@ define(function(require) {
             health: 3,
             taking_damage: false,
             _taking_damage_frame: 8,
-            name: 'player'
+            name: 'player',
+            powerups: {
+                double_jump: false
+            }
         });
     }
 
@@ -116,6 +119,9 @@ define(function(require) {
             }
 
             if (kb.pressed(kb.A) && this.num_jumps < 2) {
+                // Disable double jump without powerup
+                if (this.num_jumps > 0 && !this.powerups.double_jump) return;
+
                 engine.play("jump");
                 this.num_jumps++;
                 this.vy = -3;
