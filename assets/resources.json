@@ -15,7 +15,6 @@
         "clunk": "assets/audio/clunk.ogg"
     },
     "json": {
-    	"enemies": "enemies.json",
         "maps": "maps.json"
     }
 }
