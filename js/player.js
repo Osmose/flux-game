@@ -65,6 +65,7 @@ define(function(require) {
             }
 
             this.health -= amount;
+            document.getElementById('current-health').innerHTML = this.health;
 
             // Bang bang you're dead.
             if (this.health < 1) {
@@ -91,7 +92,6 @@ define(function(require) {
             }, 1000);
 
             this.engine.play('assets/audio/scream.ogg');
-
         },
         tick: function() {
             var kb = this.engine.kb,
