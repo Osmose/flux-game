@@ -30,7 +30,7 @@ define(function(require) {
         // Play an audio file.
         // src can either be the path to an audio file or the name
         // of a sound resource from resources.json.
-        play: function(src){
+        play: function(src) {
             var player = this.get_next_player(),
                 preloaded = $('audio#preload-' + src);
 
@@ -41,6 +41,13 @@ define(function(require) {
             }
 
             player.play();
+        },
+
+        // Play an audio file, but do not play again while it's playing.
+        // src can only be a sound resource name from resources.json.
+        play_once: function(src) {
+            var snd = $('audio#preload-' + src);
+            if (snd.length) snd.get(0).play();
         }
 
     });
