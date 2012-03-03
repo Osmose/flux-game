@@ -74,7 +74,10 @@ define(function(require) {
         },
 
         collide: function(object) {
-            
+            if (object.name == 'enemy') {
+                document.getElementById('clunk').play()
+            }
+
         }
     });
 
