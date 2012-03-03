@@ -6,6 +6,12 @@
         "bg0": "images/background_level0.png",
         "bg1": "images/background_level1.png"
     },
+    "sounds": {
+        "jump": "assets/audio/jump.ogg",
+        "grenade": "assets/audio/grenade.ogg",
+        "shoot": "assets/audio/shoot.ogg",
+        "scream": "assets/audio/scream.ogg"
+    },
     "json": {
     	"enemies": "enemies.json",
         "maps": "maps.json"

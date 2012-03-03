@@ -39,6 +39,14 @@ define(function(require) {
             });
         },
 
+        // Preload a sound.
+        loadSound: function(url, id) {
+            $('body').append(
+                $('<audio>').attr('id', 'preload-' + id)
+                            .attr('src', url)
+            );
+        },
+
         // Load a JSON file that lists other resources to load.
         loadResources: function(url) {
             var self = this;
@@ -51,6 +59,10 @@ define(function(require) {
 
                 if (data.hasOwnProperty('json')) {
                     _.each(data.json, self.loadJSON.bind(self));
+                }
+
+                if (data.hasOwnProperty('sounds')) {
+                    _.each(data.sounds, self.loadSound.bind(self));
                 }
 
                 self._done_loading(url)();

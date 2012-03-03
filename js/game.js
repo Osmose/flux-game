@@ -14,9 +14,7 @@ function($, Engine, loader) {
             var engine = window.engine = new Engine();
             engine.startGame();
 
-            setTimeout(function() {
-                document.getElementById('wonderful').play();
-            }, 300);
+            engine.play('assets/audio/wonderful.ogg');
         });
 
         var snd_toggle = $('#snd_toggle');
@@ -39,7 +37,7 @@ function($, Engine, loader) {
 
         if (window.localStorage.getItem("music") === 'on') {
             snd_toggle.html("Turn sound off");
-            document.getElementById('audio').play();
+            document.getElementById('audio').play(); // background music
         }
     });
 });

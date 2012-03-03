@@ -91,7 +91,8 @@ define(function(require) {
                 player._taking_damage_frame = 8;
             }, 1000);
 
-            this.engine.play('assets/audio/scream.ogg');
+            this.engine.play("scream");
+
         },
         tick: function() {
             var kb = this.engine.kb,
@@ -115,7 +116,7 @@ define(function(require) {
             }
 
             if (kb.pressed(kb.A) && this.num_jumps < 2) {
-                engine.play("assets/audio/jump.ogg");
+                engine.play("jump");
                 this.num_jumps++;
                 this.vy = -3;
             }
@@ -129,9 +130,9 @@ define(function(require) {
                                                   4.0,
                                                   this.dir, grenade, this.has_laser));
                 if (grenade) {
-                    engine.play("assets/audio/grenade.ogg");
+                    engine.play("grenade");
                 } else {
-                    engine.play("assets/audio/shoot.ogg");
+                    engine.play("shoot");
                 }
             } else {
                 this.shooting = false;
