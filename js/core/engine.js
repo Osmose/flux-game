@@ -6,8 +6,6 @@ define(function(require) {
         KeyboardControls = require('core/keyboardcontrols'),
 
         Player = require('player'),
-        Enemy = require('enemy'),
-        Momma = require('momma'),
         Door = require('door'),
         Sounds = require('core/sounds'),
         Tileset = require('core/tileset'),
@@ -75,20 +73,6 @@ define(function(require) {
         this.removes = [];
         this.player = new Player(this);
         this.add_entity(this.player);
-
-        // Add enemies.
-        var enemies = loader.get('enemies');
-        enemies = enemies[this.tilemap_id];
-        for (var i in enemies) {
-            var type = Enemy;
-
-            if (enemies[i].type == 'momma') {
-                type = Momma;
-            }
-
-            this.add_entity(new type(this, enemies[i].x, enemies[i].y,
-                                     enemies[i].dir, enemies[i].speed));
-        }
 
         this.sounds = new Sounds();
 

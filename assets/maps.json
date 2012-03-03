@@ -4,6 +4,13 @@
         "solid": [1, 2, 3, 4, 6],
         "door": {"x": 310, "y": 256, "level": "second"},
         "items": [{"type": "double_jump", "x": 144, "y": 176}],
+        "enemies": [
+            {"x": 50, "y": 256, "dir": 4, "speed": 0.25},
+            {"type": "momma", "x": 80, "y": 256, "dir": 4, "speed": 0.5},
+            {"x": 150, "y": 256, "dir": 4, "speed": 0.25},
+            {"x": 200, "y": 256, "dir": 4, "speed": 0.25},
+            {"x": 200, "y": 200, "dir": 3, "speed": 1.25}
+        ],
         "backgrounds": [
             "bg0",
             "bg1"

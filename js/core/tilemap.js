@@ -2,6 +2,9 @@ define(function(require) {
     var _ = require('underscore'),
         util = require('util'),
 
+        Enemy = require('enemy'),
+        Momma = require('momma'),
+
         Item = require('entities/item'),
         DoubleJump = require('entities/items/double_jump');
 
@@ -30,6 +33,17 @@ define(function(require) {
             if (item_cls !== null) {
                 self.add_entity(new item_cls(engine, self, item.x, item.y));
             }
+        });
+
+        _.each(map.enemies, function(enemy) {
+            var type = Enemy;
+
+            if (enemy.type == 'momma') {
+                type = Momma;
+            }
+
+            self.add_entity(new type(engine, enemy.x, enemy.y, enemy.dir,
+                                     enemy.speed));
         });
     }
 
