@@ -10,6 +10,33 @@ define(function(require) {
         this.path = path || '';
     }
 
+    // Attached to Image objects to generate flipped versions.
+    function flipped(horizontal, vertical) {
+        var index = (horizontal ? 1 : 0) + (vertical ? 2 : 0);
+        if (!('_flipped' in this)) {
+            this._flipped = [null, null, null, null];
+        }
+
+        if (this._flipped[index] === null) {
+            var canvas = document.createElement('canvas'),
+                ctx = canvas.getContext('2d');
+            canvas.width = this.width;
+            canvas.height = this.height;
+
+            var tw = (horizontal ? this.width : 0),
+                th = (vertical ? this.height : 0),
+                sx = (horizontal ? -1 : 1),
+                sy = (vertical ? -1 : 1);
+            ctx.translate(tw, th);
+            ctx.scale(sx, sy);
+            ctx.drawImage(this, 0, 0);
+
+            this._flipped[index] = canvas;
+        }
+
+        return this._flipped[index];
+    }
+
     _.extend(Loader.prototype, {
         // Assign a callback to run when all resources are loaded.
         onload: function(callback) {
@@ -25,6 +52,7 @@ define(function(require) {
             var img = new Image();
             this.resources[id] = {res: img, loaded: false};
             img.onload = this._done_loading(id);
+            img.flipped = flipped;
             img.src = this._path(url);
         },
 
