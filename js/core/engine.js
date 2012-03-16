@@ -10,6 +10,7 @@ define(function(require) {
         Sounds = require('core/sounds'),
         Tileset = require('core/tileset'),
         Tilemap = require('core/tilemap'),
+        Textbox = require('entities/textbox'),
         Neartree = require('core/neartree'),
 
         DoubleJump = require('entities/items/double_jump');
@@ -90,6 +91,7 @@ define(function(require) {
         });
 
         this.change_level('first');
+        this.showText('Have a wonderful', 'Trololololo');
 
         document.getElementById('game').appendChild(this.canvas);
     }
@@ -257,6 +259,10 @@ define(function(require) {
                 x: tcol.x,
                 y: tcol.y
             };
+        },
+
+        showText: function(text, text2) {
+            this.add_entity(new Textbox(this, text, text2));
         },
 
         // Play a sound.

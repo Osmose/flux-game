@@ -13,8 +13,6 @@ function($, Engine, loader) {
         loader.onload(function() {
             var engine = window.engine = new Engine();
             engine.startGame();
-
-            engine.play('assets/audio/wonderful.ogg');
         });
 
         var snd_toggle = $('#snd_toggle');

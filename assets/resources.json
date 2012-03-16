@@ -13,7 +13,8 @@
         "grenade": "assets/audio/grenade.ogg",
         "shoot": "assets/audio/shoot.ogg",
         "scream": "assets/audio/scream.ogg",
-        "clunk": "assets/audio/clunk.ogg"
+        "clunk": "assets/audio/clunk.ogg",
+        "talk": "assets/audio/talk.ogg"
     },
     "json": {
         "maps": "maps.json"
