@@ -5,8 +5,8 @@ define(function(require) {
 
         KeyboardControls = require('core/keyboardcontrols'),
 
-        Player = require('player'),
-        Door = require('door'),
+        Player = require('entities/player'),
+        Door = require('entities/door'),
         Sounds = require('core/sounds'),
         Tileset = require('core/tileset'),
         Tilemap = require('core/tilemap'),
@@ -37,8 +37,8 @@ define(function(require) {
     function Engine(game_data) {
         var self = this;
         _.extend(this, {
-            WIDTH: 160,
-            HEIGHT: 144,
+            WIDTH: 240,
+            HEIGHT: 224,
             SCALE: 3,
 
             kb: new KeyboardControls(),
@@ -128,6 +128,7 @@ define(function(require) {
             neartree.clear();
             this.removes = []
 
+            // TODO: Explain what the hell is going on here.
             for(var i=0, len=this.entities.length; i<len; i++) {
                 var e = this.entities[i];
                 if(e.tick() === false) {
@@ -213,10 +214,10 @@ define(function(require) {
             this.camera.x = this.player.x - ((this.WIDTH / 2) - 8);
             this.camera.y = this.player.y - ((this.HEIGHT / 2) - 8);
 
-            this.camera.x = Math.max(this.camera.x, maxLeft);
-            this.camera.x = Math.min(this.camera.x, maxRight);
-            this.camera.y = Math.max(this.camera.y, maxTop);
-            this.camera.y = Math.min(this.camera.y, maxBottom);
+            this.camera.x = Math.floor(Math.max(this.camera.x, maxLeft));
+            this.camera.x = Math.floor(Math.min(this.camera.x, maxRight));
+            this.camera.y = Math.floor(Math.max(this.camera.y, maxTop));
+            this.camera.y = Math.floor(Math.min(this.camera.y, maxBottom));
         },
 
         curTilemap: function() {

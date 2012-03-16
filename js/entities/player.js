@@ -103,38 +103,27 @@ define(function(require) {
             var kb = this.engine.kb,
                 dx = 0, dy = 0;
 
-            // Read input and determine movement
             if (kb.keys[kb.RIGHT]) {dx += 1; this.dir = util.RIGHT;}
             if (kb.keys[kb.LEFT]) {dx -= 1; this.dir = util.LEFT;}
             this.moving = dx !== 0;
 
-            // Apply gravity to y velocity
             this.vy += 0.1;
             if (this.vy > 4) this.vy = 4;
 
-            // Perform tile collision in two dimensions to allow sliding on a
-            // surface
             var xcol = this.engine.collides(this.collision_box(dx, 0)),
                 ycol = this.engine.collides(this.collision_box(0, Math.ceil(this.vy)));
-
-            // Standing is falling and colliding with a tile.
             this.standing = (this.vy > 0 && ycol.solid);
 
             if (ycol.solid) {
                 this.vy = 0;
-
-                // If we're standing, move the player to the top of the tile,
-                // otherwise move them to the bottom (jumping into it).
                 if (this.standing) {
                     this.y = ycol.stand - (this.bounding_box.bottom + 1);
                 } else {
                     this.y = ycol.stand + 16;
                 }
-
                 this.num_jumps = 0;
             }
 
-            // Jumping
             if (kb.pressed(kb.A) && this.num_jumps < 2) {
                 // Disable double jump without powerup
                 if (this.num_jumps > 0 && !this.powerups.double_jump) return;
@@ -144,7 +133,6 @@ define(function(require) {
                 this.vy = -3;
             }
 
-            // Shooting
             if (kb.pressed(kb.SPACE) || kb.pressed(kb.B)) {
                 this.shooting = true;
                 var grenade = kb.pressed(kb.SPACE);
@@ -162,7 +150,6 @@ define(function(require) {
                 this.shooting = false;
             }
 
-            // Apply movement
             if (!xcol.solid) this.x += dx;
             this.y += this.vy;
         },

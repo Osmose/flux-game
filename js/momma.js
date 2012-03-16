@@ -1,6 +1,6 @@
 define(function(require) {
     var _ = require('underscore'),
-        Entity = require('core/entity'),
+        Entity = require('entity'),
         MommaChild = require('momma-child'),
         util = require('util');
 

@@ -3,7 +3,7 @@ define(function(require) {
         loader = require('core/loader'),
         util = require('util'),
 
-        Entity = require('core/entity');
+        Entity = require('entity');
 
     function Bullet(engine, x, y, speed, dir, alt, laser) {
         Entity.call(this, engine);

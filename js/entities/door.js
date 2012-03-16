@@ -1,6 +1,6 @@
 define(function(require) {
     var _ = require('underscore'),
-        Entity = require('core/entity'),
+        Entity = require('entity'),
         util = require('util');
 
     function Door(engine, x, y, level) {

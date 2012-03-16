@@ -2,7 +2,7 @@ define(function(require) {
     var _ = require('underscore'),
         loader = require('core/loader'),
 
-        Entity = require('core/entity');
+        Entity = require('entity');
 
     function Item(engine, tilemap, x, y, graphic_id) {
         _.extend(this, {

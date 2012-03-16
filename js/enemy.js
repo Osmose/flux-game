@@ -2,7 +2,7 @@ define(function(require) {
     var _ = require('underscore'),
         util = require('util'),
         loader = require('core/loader'),
-        Entity = require('core/entity'),
+        Entity = require('entity'),
         Tileset = require('core/tileset');
 
     function Enemy(engine, x, y, dir, speed) {

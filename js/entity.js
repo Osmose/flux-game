@@ -1,26 +1,31 @@
 define(function(require) {
     var _ = require('underscore');
 
-    function Entity(engine) {
+    function Entity(engine, x, y) {
         _.extend(this, {
             uid: _.uniqueId(),
             engine: engine,
-            x: 0,
-            y: 0,
-            bounding_box: {left: 0, top: 0, right: 15, bottom: 15}
+            type: 'entity',
+            image: null,
+            x: x,
+            y: y,
+            bounding_box: null
         });
     }
 
     _.extend(Entity.prototype, {
         tick: function() {
+            // Override in subclass
         },
 
         render: function(ctx, x, y) {
-            throw 'not implemented';
+            if (this.image !== null) {
+                ctx.drawImage(this.image, this.x - x, this.y - y);
+            }
         },
 
         collide: function(ctx, x, y) {
-            throw 'not implemented';
+            // Override in subclass
         },
 
         collision_box: function(dx, dy) {
