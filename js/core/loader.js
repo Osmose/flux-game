@@ -69,10 +69,11 @@ define(function(require) {
 
         // Preload a sound.
         loadSound: function(url, id) {
-            $('body').append(
-                $('<audio>').attr('id', 'preload-' + id)
-                            .attr('src', url)
-            );
+            var snd = new Audio();
+            this.resources[id] = {res: snd, loaded: false};
+            snd.addEventListener('canplaythrough', this._done_loading(id), true);
+            snd.setAttribute('id', 'preload-' + id);
+            snd.src = this._path(url);
         },
 
         // Load a JSON file that lists other resources to load.
@@ -110,6 +111,7 @@ define(function(require) {
                 self.resources[id].loaded = true;
                 if (self.loadingCallback && self.isLoadingComplete()) {
                     self.loadingCallback();
+                    self.loadingCallback = false;
                 }
             };
         },

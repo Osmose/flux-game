@@ -120,6 +120,39 @@ define(function(require) {
                 tx = Math.floor(x / tw),
                 ty = Math.floor(y / th);
             return {tx: tx, ty: ty};
+        },
+
+        audio: {
+            fade: function(snd1, snd2, duration, tick) {
+                var snd1vol = snd1.volume,
+                    snd1dv = snd1vol / (duration / tick),
+                    snd2vol = snd2.volume,
+                    snd2dv = snd2vol / (duration / tick),
+                    start = 0,
+                    elapsed = 0;
+
+                snd2.volume = 0;
+                snd2.play();
+                function ramp() {
+                    // Cap volume so it doesn't over or underflow (floating
+                    // point math sucks).
+                    snd1.volume = Math.max(snd1.volume - snd1dv, 0);
+                    snd2.volume = Math.min(snd2.volume + snd2dv, 1);
+                    elapsed = Date.now() - start;
+
+                    if (elapsed > duration) {
+                        snd1.pause();
+                        snd1.currentTime = 0;
+                        snd1.volume = snd1vol;
+                        snd2.volume = snd2vol;
+                    } else {
+                        setTimeout(ramp, tick);
+                    }
+                }
+
+                start = Date.now();
+                setTimeout(ramp, tick);
+            }
         }
     };
 });

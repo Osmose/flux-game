@@ -12,6 +12,7 @@ define(function(require) {
         Tilemap = require('core/tilemap'),
         Textbox = require('entities/textbox'),
         Neartree = require('core/neartree'),
+        Radio = require('core/radio'),
 
         DoubleJump = require('entities/items/double_jump');
 
@@ -48,6 +49,8 @@ define(function(require) {
             tileset: new Tileset(loader.get('tileset'), 16, 16, 0, 0, {}),
             tilemap_id: null,
             neartree: new Neartree(),
+
+            radio: new Radio(),
 
             camera: {
                 x: 0,
@@ -273,6 +276,7 @@ define(function(require) {
         // Start the game loop.
         startGame: function() {
             this.running = true;
+            this.radio.start();
             this.loop();
         },
 

@@ -1,7 +1,8 @@
 define(function(require) {
     var _ = require('underscore'),
         $ = require('jquery'),
-        util = require('util');
+        util = require('util'),
+        loader = require('core/loader');
 
     // take care of playing a bunch of sounds
     function Sounds() {
@@ -30,24 +31,23 @@ define(function(require) {
         // Play an audio file.
         // src can either be the path to an audio file or the name
         // of a sound resource from resources.json.
-        play: function(src) {
+        play: function(id) {
             var player = this.get_next_player(),
-                preloaded = $('audio#preload-' + src);
+                audio = loader.get(id),
+                src = id;
 
-            if (preloaded.length) {
-                player.src = preloaded.attr('src');
-            } else {
-                player.src = src;
+            if (audio !== undefined) {
+                src = audio.src;
             }
 
+            player.src = src;
             player.play();
         },
 
         // Play an audio file, but do not play again while it's playing.
         // src can only be a sound resource name from resources.json.
-        play_once: function(src) {
-            var snd = $('audio#preload-' + src);
-            if (snd.length) snd.get(0).play();
+        play_once: function(id) {
+            loader.get(id).play();
         }
 
     });

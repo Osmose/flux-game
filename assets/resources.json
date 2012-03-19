@@ -9,12 +9,19 @@
         "bullet": "images/bullet.png"
     },
     "sounds": {
-        "jump": "assets/audio/jump.ogg",
-        "grenade": "assets/audio/grenade.ogg",
-        "shoot": "assets/audio/shoot.ogg",
-        "scream": "assets/audio/scream.ogg",
-        "clunk": "assets/audio/clunk.ogg",
-        "talk": "assets/audio/talk.ogg"
+        "jump": "audio/jump.ogg",
+        "grenade": "audio/grenade.ogg",
+        "shoot": "audio/shoot.ogg",
+        "scream": "audio/scream.ogg",
+        "clunk": "audio/clunk.ogg",
+        "talk": "audio/talk.ogg",
+        "music0": "audio/radio/2NRO8OT_-_01_-_Crash_Of_The_First_Interstellar_Channel.ogg",
+        "music1": "audio/radio/Anamanaguchi_-_07_-_My_Skateboard_Will_Go_On.ogg",
+        "music2": "audio/radio/Sycamore_Drive_-_03_-_City_Sounds.ogg",
+        "music3": "audio/radio/Sycamore_Drive_-_04_-_Hare_Versus_Tortoise.ogg",
+        "music4": "audio/radio/Trash80_-_01_-_Icarus.ogg",
+        "music5": "audio/radio/Trash80_-_03_-_Missing_You.ogg",
+        "static": "audio/radio/static.ogg"
     },
     "json": {
         "maps": "maps.json"
