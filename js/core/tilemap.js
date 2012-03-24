@@ -16,6 +16,7 @@ define(function(require) {
             solid: map.solid,
             entities: [],
             backgrounds: [],
+            bgcolor: map.bgcolor,
             x: 0,
             y: 0
         });
@@ -56,11 +57,16 @@ define(function(require) {
 
         // Render parallaxy backgroung image(s).
         renderBackground: function(ctx, x, y) {
+            if (this.bgcolor) {
+                ctx.fillStyle = this.bgcolor;
+                ctx.fillRect(0, 0, engine.canvas.width, engine.canvas.height);
+            }
+
             // bg 0 stays put, all others move.
             // FIXME: This probably looks ridiculous with more than 2 layers.
             for (var i = 0; i < this.backgrounds.length; i++) {
                 var img = this.backgrounds[i];
-                var ty = i * .5 * (engine.HEIGHT + y);
+                var ty = engine.HEIGHT - img.height + i * .5 * (engine.camera.maxBottom + y);
                 for (var tx = i * x; tx < engine.canvas.height; tx += img.width) {
                     ctx.drawImage(img, tx, ty, img.width, img.height);
                 }
