@@ -54,7 +54,11 @@ define(function(require) {
 
             camera: {
                 x: 0,
-                y: 0
+                y: 0,
+                maxLeft: 0,
+                maxRight: NaN,
+                maxTop: 0,
+                maxBottom: NaN
             }
         });
 
@@ -211,18 +215,18 @@ define(function(require) {
 
         // Center camera on player
         centerCamera: function() {
-            var maxLeft = 0,
-                maxRight = (this.curTilemap().width * 16) - this.WIDTH,
-                maxTop = 0,
-                maxBottom = (this.curTilemap().height * 16) - this.HEIGHT;
+            this.camera.maxLeft = 0;
+            this.camera.maxRight = (this.curTilemap().width * 16) - this.WIDTH;
+            this.camera.maxTop = 0;
+            this.camera.maxBottom = (this.curTilemap().height * 16) - this.HEIGHT;
 
             this.camera.x = this.player.x - ((this.WIDTH / 2) - 8);
             this.camera.y = this.player.y - ((this.HEIGHT / 2) - 8);
 
-            this.camera.x = Math.floor(Math.max(this.camera.x, maxLeft));
-            this.camera.x = Math.floor(Math.min(this.camera.x, maxRight));
-            this.camera.y = Math.floor(Math.max(this.camera.y, maxTop));
-            this.camera.y = Math.floor(Math.min(this.camera.y, maxBottom));
+            this.camera.x = Math.floor(Math.max(this.camera.x, this.camera.maxLeft));
+            this.camera.x = Math.floor(Math.min(this.camera.x, this.camera.maxRight));
+            this.camera.y = Math.floor(Math.max(this.camera.y, this.camera.maxTop));
+            this.camera.y = Math.floor(Math.min(this.camera.y, this.camera.maxBottom));
         },
 
         curTilemap: function() {
