@@ -1,40 +1,16 @@
 define(function(require) {
-    var _ = require('underscore'),
-        $ = require('jquery');
+    var _ = require('underscore');
+    var $ = require('jquery');
+
+    var handlers = require('core/loader/handlers');
 
     // Loads resources and handles callbacks to trigger when loading is
     // complete.
     function Loader(path) {
         this.resources = {};
-        this.loadingCallback = false;
+        this.handlers = {};
+        this.loadingCallbacks = [];
         this.path = path || '';
-    }
-
-    // Attached to Image objects to generate flipped versions.
-    function flipped(horizontal, vertical) {
-        var index = (horizontal ? 1 : 0) + (vertical ? 2 : 0);
-        if (!('_flipped' in this)) {
-            this._flipped = [null, null, null, null];
-        }
-
-        if (this._flipped[index] === null) {
-            var canvas = document.createElement('canvas'),
-                ctx = canvas.getContext('2d');
-            canvas.width = this.width;
-            canvas.height = this.height;
-
-            var tw = (horizontal ? this.width : 0),
-                th = (vertical ? this.height : 0),
-                sx = (horizontal ? -1 : 1),
-                sy = (vertical ? -1 : 1);
-            ctx.translate(tw, th);
-            ctx.scale(sx, sy);
-            ctx.drawImage(this, 0, 0);
-
-            this._flipped[index] = canvas;
-        }
-
-        return this._flipped[index];
     }
 
     _.extend(Loader.prototype, {
@@ -43,57 +19,35 @@ define(function(require) {
             if (this.isLoadingComplete()) {
                 callback();
             } else {
-                this.loadingCallback = callback;
+                callback.called = false;
+                this.loadingCallbacks.push(callback);
             }
-        },
-
-        // Load a plain image file.
-        loadImage: function(url, id) {
-            var img = new Image();
-            this.resources[id] = {res: img, loaded: false};
-            img.onload = this._done_loading(id);
-            img.flipped = flipped;
-            img.src = this._path(url);
-        },
-
-        // Load a JSON file.
-        loadJSON: function(url, id) {
-            var self = this;
-
-            this.resources[id] = {res: null, loaded: false};
-            $.getJSON(this._path(url), function(data) {
-                self.resources[id].res = data;
-                self._done_loading(id)();
-            });
-        },
-
-        // Preload a sound.
-        loadSound: function(url, id) {
-            var snd = new Audio();
-            this.resources[id] = {res: snd, loaded: false};
-            snd.addEventListener('canplaythrough', this._done_loading(id), true);
-            snd.setAttribute('id', 'preload-' + id);
-            snd.src = this._path(url);
         },
 
         // Load a JSON file that lists other resources to load.
         loadResources: function(url) {
             var self = this;
 
+            // Add mock resource to block onload callbacks until all resources
+            // are processed.
             this.resources[url] = {res: undefined, loaded: false};
+
             $.getJSON(this._path(url), function(data) {
-                if (data.hasOwnProperty('images')) {
-                    _.each(data.images, self.loadImage.bind(self));
-                }
+                // Match sections with handlers and load all resources in those
+                // sections.
+                _.each(data, function(resources, key) {
+                    if (key in self.handlers) {
+                        var handler = self.handlers[key];
 
-                if (data.hasOwnProperty('json')) {
-                    _.each(data.json, self.loadJSON.bind(self));
-                }
+                        _.each(resources, function(url, id) {
+                            self.resources[id] = {res: null, loaded: false};
+                            handler.load(id, self._path(url),
+                                         self._done_loading(id));
+                        });
+                    }
+                });
 
-                if (data.hasOwnProperty('sounds')) {
-                    _.each(data.sounds, self.loadSound.bind(self));
-                }
-
+                // Remove mock resource.
                 self._done_loading(url)();
                 delete self.resources[url];
             });
@@ -104,15 +58,22 @@ define(function(require) {
             return this.path + url;
         },
 
-        // Utility that handles triggering the onload callback.
+        // Utility that handles triggering the onload callbacks.
         _done_loading: function(id) {
             var self = this;
-            return function() {
+
+            // Generate a callback that handles marking the resource as loaded
+            // and triggering onload callbacks.
+            return function(resource) {
                 self.resources[id].loaded = true;
-                if (self.loadingCallback && self.isLoadingComplete()) {
-                    self.loadingCallback();
-                    self.loadingCallback = false;
-                }
+                self.resources[id].res = resource;
+
+                _.each(self.loadingCallbacks, function(callback) {
+                    if (!callback.called && self.isLoadingComplete()) {
+                        callback();
+                        callback.called = true;
+                    }
+                });
             };
         },
 
@@ -135,9 +96,20 @@ define(function(require) {
             }
 
             return undefined;
+        },
+
+        register_handler: function(handler, type) {
+            this.handlers[type] = handler;
         }
     });
 
-    // TODO: Figure out a better place for the asset path
-    return new Loader('assets/');
+    // TODO: Figure out a better place for the asset path.
+    var loader = new Loader('assets/');
+
+    // Register default handlers.
+    loader.register_handler(handlers.ImageHandler, 'images');
+    loader.register_handler(handlers.JSONHandler, 'json');
+    loader.register_handler(handlers.AudioHandler, 'audio');
+
+    return loader;
 });

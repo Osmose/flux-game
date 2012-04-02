@@ -8,7 +8,7 @@
         "dbl_jump": "images/dbl_jump.png",
         "bullet": "images/bullet.png"
     },
-    "sounds": {
+    "audio": {
         "jump": "audio/jump.ogg",
         "grenade": "audio/grenade.ogg",
         "shoot": "audio/shoot.ogg",

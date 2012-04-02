@@ -122,6 +122,13 @@ define(function(require) {
             return {tx: tx, ty: ty};
         },
 
+        // Creates a new object with o as it's prototype.
+        object: function (o) {
+            function F() {}
+            F.prototype = o;
+            return new F();
+        },
+
         audio: {
             fade: function(snd1, snd2, duration, tick) {
                 var snd1vol = snd1.volume,
