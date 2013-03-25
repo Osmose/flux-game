@@ -1,5 +1,9 @@
 # Flux Game
 
+## License
+
+Flux Game is distributed under the MIT License. See `LICENSE` for more details.
+
 ## Audio samples
 
 * http://www.freesound.org/people/ERH/sounds/29760/ (background audio 1)
